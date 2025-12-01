@@ -1,104 +1,297 @@
 <!DOCTYPE html>
-<html>
+<html lang="pt-br">
 <head>
-    <title>Fatoração de Números</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fatoração PrimePro</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
-        body {
-            font-family: Arial, sans-serif;
+        :root {
+            --bg-color: #121212;
+            --card-bg: #1e1e1e;
+            --text-color: #e0e0e0;
+            --text-secondary: #a0a0a0;
+            --primary-color: #6c5ce7;
+            --primary-hover: #5a4dd1;
+            --error-color: #ff7675;
+            --border-color: #333;
+        }
+
+        * {
             margin: 0;
-            padding-bottom: 50px;
-            background-color: white;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .main-container {
+            background-color: var(--card-bg);
+            padding: 2rem;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            width: 100%;
+            max-width: 480px;
+            border: 1px solid var(--border-color);
         }
 
         h1 {
             text-align: center;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            color: var(--primary-color);
         }
 
-        #numero {
+        .input-group {
+            margin-bottom: 1.5rem;
+        }
+
+        label {
             display: block;
-            margin: 20px auto;
-            padding: 10px;
-            font-size: 16px;
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        input[type="number"] {
+            width: 100%;
+            padding: 12px 16px;
+            border-radius: 8px;
+            border: 2px solid var(--border-color);
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-size: 1rem;
+            transition: border-color 0.3s;
+            outline: none;
+        }
+
+        input[type="number"]:focus {
+            border-color: var(--primary-color);
         }
 
         button {
-            display: block;
-            margin: 0 auto;
-            padding: 10px 20px;
-            font-size: 16px;
-        }
-
-        #fatorizacao {
-            margin: 20px auto;
-            width: 300px;
-            padding: 10px;
-            border: 1px solid #ccc;
-        }
-
-        #fatorizacao p {
-            margin: 5px 0;
-        }
-
-        #footer {
-            position: fixed;
-            bottom: 0;
-            left: 0;
             width: 100%;
-            background-color: #f5f5f5;
-            padding: 10px;
-            text-align: center;
-            font-size: 14px;
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            background-color: var(--primary-color);
+            color: white;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.2s, transform 0.1s;
         }
 
-        a {
-            color: rgb(0, 0, 0);
-            text-decoration: none;
+        button:hover {
+            background-color: var(--primary-hover);
+        }
+
+        button:active {
+            transform: scale(0.98);
+        }
+
+        #error-message {
+            color: var(--error-color);
+            text-align: center;
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+            min-height: 1.2em;
+        }
+
+        #results-area {
+            display: none;
+            margin-top: 2rem;
+            border-top: 1px solid var(--border-color);
+            padding-top: 1.5rem;
+        }
+
+        .result-section h3 {
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+            color: var(--text-color);
+        }
+
+        .steps-container {
+            background-color: var(--bg-color);
+            border-radius: 8px;
+            padding: 1rem;
+            font-family: 'Courier New', Courier, monospace;
+            margin-bottom: 1.5rem;
+            border: 1px solid var(--border-color);
+        }
+
+        .step-row {
+            display: grid;
+            grid-template-columns: 1fr auto 1fr;
+            gap: 10px;
+            padding: 4px 0;
+            border-bottom: 1px dashed var(--border-color);
+        }
+
+        .step-row:last-child {
+            border-bottom: none;
+        }
+
+        .step-row span:nth-child(1) { text-align: right; }
+        .step-row span:nth-child(2) { color: var(--primary-color); font-weight: bold; }
+        .step-row span:nth-child(3) { text-align: left; color: var(--primary-color); }
+
+        .final-result-box {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 1rem;
+            border-radius: 8px;
+            text-align: center;
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+
+        .exponent {
+            font-size: 0.8em;
+            vertical-align: super;
+            opacity: 0.9;
+        }
+
+        footer {
+            margin-top: auto;
+            padding: 20px;
+            text-align: center;
+            color: var(--text-secondary);
+            font-size: 0.8rem;
         }
     </style>
-    <script>
-function fatoracao(numero) {
-    var fatores = [];
-    var divisor = 2;
-
-    while (numero > 1) {
-        if (numero % divisor === 0) {
-            fatores.push(divisor);
-            numero = numero / divisor;
-        } else {
-            divisor += 1;
-        }
-    }
-
-    return fatores;
-}
-
-function fatorarNumero() {
-    var numero = parseInt(document.getElementById("numero").value);
-    var resultado = fatoracao(numero);
-    var fatorizacao = document.getElementById("fatorizacao");
-    fatorizacao.innerHTML = "";
-
-    fatorizacao.innerHTML += "<p>A fatoração de " + numero + " é:</p>";
-    for (var i = 0; i < resultado.length; i++) {
-        fatorizacao.innerHTML += "<p>" + numero + " | " + resultado[i] + "</p>";
-        numero = Math.floor(numero / resultado[i]);
-    }
-
-    fatorizacao.innerHTML += "<p>  1 | </p>";
-
-    var fatorizacaoFinal = resultado.join(" x ");
-    fatorizacao.innerHTML += "<p>" + fatorizacaoFinal + "</p>";
-}
-
-    </script>
 </head>
 <body>
-    <h1>Fatoração de Números</h1>
-    <input type="text" id="numero" placeholder="Digite um número inteiro para fatorar">
-    <button onclick="fatorarNumero()">Fatorar</button>
-    <div id="fatorizacao"></div>
-    <div id="footer">
-        <h2>2023</h2><br>
-    </div>
+
+    <main class="main-container">
+        <h1>Fatoração PrimePro</h1>
+        
+        <div class="input-group">
+            <label for="numeroInput">Digite um número inteiro positivo:</label>
+            <input type="number" id="numeroInput" placeholder="Ex: 120" min="2">
+        </div>
+        
+        <div id="error-message"></div>
+
+        <button id="btnFatorar">Calcular Fatores</button>
+
+        <div id="results-area">
+            <div class="result-section">
+                <h3>Processo Passo a Passo</h3>
+                <div id="stepsOutput" class="steps-container"></div>
+            </div>
+
+            <div class="result-section">
+                <h3>Resultado Final (Notação Exponencial)</h3>
+                <div id="finalOutput" class="final-result-box"></div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>© 2023 PrimePro Calculator. Todos os direitos reservados.</p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const numeroInput = document.getElementById('numeroInput');
+            const btnFatorar = document.getElementById('btnFatorar');
+            const errorMessage = document.getElementById('error-message');
+            const resultsArea = document.getElementById('results-area');
+            const stepsOutput = document.getElementById('stepsOutput');
+            const finalOutput = document.getElementById('finalOutput');
+
+            function calcularFatoresPrimos(num) {
+                const fatores = [];
+                let divisor = 2;
+                while (num > 1) {
+                    if (num % divisor === 0) {
+                        fatores.push(divisor);
+                        num /= divisor;
+                    } else {
+                        divisor++;
+                    }
+                }
+                return fatores;
+            }
+
+            function formatarExponencial(fatores) {
+                if (fatores.length === 0) return "";
+                
+                const contagem = {};
+                fatores.forEach(num => {
+                    contagem[num] = (contagem[num] || 0) + 1;
+                });
+
+                return Object.entries(contagem)
+                    .map(([base, expoente]) => {
+                        return expoente > 1 
+                            ? `${base}<span class="exponent">${expoente}</span>` 
+                            : base;
+                    })
+                    .join(' × ');
+            }
+
+            function gerarPassoAPassoHTML(numeroOriginal, fatores) {
+                let html = '';
+                let dividendoAtual = numeroOriginal;
+                
+                fatores.forEach(faktor => {
+                    html += `
+                        <div class="step-row">
+                            <span>${dividendoAtual}</span>
+                            <span>|</span>
+                            <span>${faktor}</span>
+                        </div>
+                    `;
+                    dividendoAtual /= faktor;
+                });
+                 html += `
+                        <div class="step-row">
+                            <span>1</span>
+                            <span>|</span>
+                            <span></span>
+                        </div>
+                    `;
+                return html;
+            }
+
+            function handleCalculation() {
+                const inputVal = parseInt(numeroInput.value);
+                
+                errorMessage.textContent = '';
+                resultsArea.style.display = 'none';
+
+                if (isNaN(inputVal) || inputVal <= 1 || !Number.isInteger(inputVal)) {
+                    errorMessage.textContent = 'Por favor, digite um número inteiro maior que 1.';
+                    return;
+                }
+                
+                const fatores = calcularFatoresPrimos(inputVal);
+                const passosHTML = gerarPassoAPassoHTML(inputVal, fatores);
+                const resultadoFinalHTML = formatarExponencial(fatores);
+
+                stepsOutput.innerHTML = passosHTML;
+                finalOutput.innerHTML = resultadoFinalHTML;
+                resultsArea.style.display = 'block';
+            }
+
+            btnFatorar.addEventListener('click', handleCalculation);
+
+            numeroInput.addEventListener('keypress', (e) => {
+                if(e.key === 'Enter') handleCalculation();
+            });
+        });
+    </script>
 </body>
 </html>
