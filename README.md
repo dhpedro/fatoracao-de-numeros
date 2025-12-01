@@ -20,7 +20,7 @@
 <br>
 
 <div align="center">
-  <img src="[LINK_DA_SUA_IMAGEM_AQUI](https://i.ibb.co/hJbWFs66/Screenshot-2025-12-01-09-47-15.png)" alt="Preview do Projeto" width="700">
+  <img src="https://i.ibb.co/hJbWFs66/Screenshot-2025-12-01-09-47-15.png" alt="Preview do Projeto" width="700">
 </div>
 
 ## 📌 Sobre
@@ -64,4 +64,4 @@ Apenas um navegador (Chrome, Firefox, Edge, etc).
 ### Passo a passo
 1. Clone este repositório:
    ```bash
-   git clone [https://github.com/dhpedro/fatoracao-de-numeros.git](https://github.com/dhpedro/fatoracao-de-numeros.git)
+   git clone https://github.com/dhpedro/fatoracao-de-numeros.git
