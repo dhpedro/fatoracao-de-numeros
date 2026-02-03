@@ -11,7 +11,7 @@
     <a href="#-como-usar">Como Usar</a>
   </p>
 
-  <a href="[https://dhpedro.github.io/fatoracao-de-numeros](https://dhpedro.github.io/fatoracao-de-numeros/)">
+  <a href="https://dhpedro.github.io/fatoracao-de-numeros/">
     <img src="https://img.shields.io/badge/DEMO_ONLINE-Ver_Projeto-6c5ce7?style=for-the-badge&logo=vercel&logoColor=white">
   </a>
 
